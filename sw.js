@@ -1,4 +1,4 @@
-const V='corte-v1',F=['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png'];
-self.addEventListener('install',e=>e.waitUntil(caches.open(V).then(c=>c.addAll(F)).then(()=>self.skipWaiting())));
+const V='corte-v3',F=["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "seg_selfie_segmentation_solution_wasm_bin.js", "seg_selfie_segmentation_landscape.tflite", "seg_selfie_segmentation.binarypb", "seg_selfie_segmentation_solution_wasm_bin.wasm", "seg_selfie_segmentation_solution_simd_wasm_bin.js", "seg_selfie_segmentation.tflite", "seg_selfie_segmentation_solution_simd_wasm_bin.wasm", "seg_selfie_segmentation_solution_simd_wasm_bin.data", "seg_selfie_segmentation.js"];
+self.addEventListener('install',e=>e.waitUntil(caches.open(V).then(c=>Promise.all(F.map(u=>c.add(u).catch(()=>{})))).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{const c=res.clone();caches.open(V).then(h=>h.put(e.request,c));return res}).catch(()=>caches.match('./'))))});
