@@ -178,5 +178,5 @@ $('#exp').onclick=()=>{if(!clips.length||exporting)return;ac();const s=cv.captur
  rec.onstop=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(ch,{type:mt}));a.download='corte.'+(mt.includes('mp4')?'mp4':'webm');a.click();exporting=false;$('#exp').textContent='Exportar'};
  exporting=true;$('#exp').textContent='Exportando…';t=0;rec.start();setTimeout(play,150)};
 tabsR();pn();
-if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+if('serviceWorker' in navigator){const had=navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had&&!window.__r){window.__r=1;location.reload()}});addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
 </script></body></html>
